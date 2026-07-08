@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quản lý Nhóm sinh viên</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#f5f7fb;
+font-family:Segoe UI;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:linear-gradient(180deg,#0b4fb3,#083b8f);
+    color:#fff;
+    overflow:auto;
+}
+
+.logo{
+    padding:22px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:bold;
+    font-size:26px;
+}
+
+.logo-box{
+    width:50px;
+    height:50px;
+    background:#fff;
+    color:#0b4fb3;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.menu{
+    margin-top:20px;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:8px 15px;
+    padding:15px;
+    border-radius:12px;
+    transition:.3s;
+    font-size:17px;
+}
+
+.menu a:hover,
+.menu .active{
+    background:#2f6ff6;
+}
+
+.content{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    background:#fff;
+    padding:18px 35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+.page{
+padding:30px;
+}
+
+.card{
+border:none;
+border-radius:15px;
+}
+
+table th{
+background:#0d6efd;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-box">
+            GA
+        </div>
+
+        <div style="font-size:16px;">
+            GA Timetable<br>
+            Scheduler
+        </div>
+
+    </div>
+
+    <div class="menu">
+
+        <a href="index.html">
+            <i class="bi bi-house"></i> Tổng quan
+        </a>
+
+        <a href="teachers.html">
+            <i class="bi bi-person"></i> Giáo viên
+        </a>
+
+        <a href="subjects.html">
+            <i class="bi bi-book"></i> Môn học
+        </a>
+
+        <a href="student-groups.html" class="active">
+            <i class="bi bi-people"></i> Nhóm sinh viên
+        </a>
+
+        <a href="rooms.html">
+            <i class="bi bi-building"></i> Phòng học
+        </a>
+
+        <a href="equipments.html">
+            <i class="bi bi-pc-display"></i> Thiết bị
+        </a>
+
+        <a href="timeslots.html">
+            <i class="bi bi-clock"></i> Khung giờ
+        </a>
+
+        <a href="course-classes.html">
+            <i class="bi bi-mortarboard"></i> Lớp học phần
+        </a>
+
+        <a href="constraints.html" >
+            <i class="bi bi-exclamation-triangle"></i> Ràng buộc
+        </a>
+
+        <a href="generate.html">
+            <i class="bi bi-cpu"></i> Tạo thời khóa biểu
+        </a>
+
+        <a href="result.html">
+            <i class="bi bi-calendar-check"></i> Kết quả
+        </a>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<div class="topbar">
+
+<h3>Quản lý Nhóm sinh viên</h3>
+
+<i class="bi bi-people-fill fs-3"></i>
+
+</div>
+
+<div class="page">
+
+<div class="card shadow-sm p-4">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+<h4>Danh sách nhóm sinh viên</h4>
+
+<div>
+
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+
+<i class="bi bi-plus-circle"></i>
+
+Thêm
+
+</button>
+
+<button class="btn btn-success">
+
+<i class="bi bi-arrow-clockwise"></i>
+
+Refresh
+
+</button>
+
+</div>
+
+</div>
+
+<div class="row mb-3">
+
+<div class="col-md-4">
+
+<input
+type="text"
+class="form-control"
+placeholder="Tìm kiếm nhóm..."
+id="searchGroup">
+
+</div>
+
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover align-middle">
+
+<thead>
+
+<tr>
+
+<th>STT</th>
+
+<th>Mã nhóm</th>
+
+<th>Tên nhóm</th>
+
+<th>Số sinh viên</th>
+
+<th width="180">Thao tác</th>
+
+</tr>
+
+</thead>
+
+<tbody id="groupTableBody">
+
+<tr>
+
+<td>1</td>
+
+<td>NH001</td>
+
+<td>CNTT K16A</td>
+
+<td>45</td>
+
+<td>
+
+<button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">
+
+<i class="bi bi-pencil"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+
+<i class="bi bi-trash"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>2</td>
+
+<td>NH002</td>
+
+<td>CNTT K16B</td>
+
+<td>42</td>
+
+<td>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>3</td>
+
+<td>NH003</td>
+
+<td>HTTT K16</td>
+
+<td>38</td>
+
+<td>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+</div>
+<!-- Modal Thêm Nhóm sinh viên -->
+
+<div class="modal fade" id="addModal">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title">Thêm nhóm sinh viên</h5>
+
+<button class="btn-close" data-bs-dismiss="modal"></button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="mb-3">
+
+<label class="form-label">Mã nhóm</label>
+
+<input type="text" class="form-control" id="groupCode">
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">Tên nhóm</label>
+
+<input type="text" class="form-control" id="groupName">
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">Số lượng sinh viên</label>
+
+<input type="number" class="form-control" id="studentCount">
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">Ghi chú</label>
+
+<textarea class="form-control" rows="3"></textarea>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button class="btn btn-secondary" data-bs-dismiss="modal">
+
+Hủy
+
+</button>
+
+<button class="btn btn-primary">
+
+Lưu
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Modal Sửa -->
+
+<div class="modal fade" id="editModal">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header bg-warning">
+
+<h5 class="modal-title">
+
+Sửa nhóm sinh viên
+
+</h5>
+
+<button class="btn-close" data-bs-dismiss="modal"></button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="mb-3">
+
+<label>Mã nhóm</label>
+
+<input
+type="text"
+class="form-control"
+value="NH001">
+
+</div>
+
+<div class="mb-3">
+
+<label>Tên nhóm</label>
+
+<input
+type="text"
+class="form-control"
+value="CNTT K16A">
+
+</div>
+
+<div class="mb-3">
+
+<label>Số lượng sinh viên</label>
+
+<input
+type="number"
+class="form-control"
+value="45">
+
+</div>
+
+<div class="mb-3">
+
+<label>Ghi chú</label>
+
+<textarea class="form-control" rows="3">
+
+Nhóm học chính
+
+</textarea>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button class="btn btn-secondary" data-bs-dismiss="modal">
+
+Hủy
+
+</button>
+
+<button class="btn btn-warning">
+
+Cập nhật
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Modal Xóa -->
+
+<div class="modal fade" id="deleteModal">
+
+<div class="modal-dialog modal-sm">
+
+<div class="modal-content">
+
+<div class="modal-header bg-danger text-white">
+
+<h5 class="modal-title">
+
+Xóa nhóm sinh viên
+
+</h5>
+
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+</div>
+
+<div class="modal-body text-center">
+
+<i class="bi bi-trash display-3 text-danger"></i>
+
+<p class="mt-3">
+
+Bạn có chắc muốn xóa nhóm sinh viên này?
+
+</p>
+
+</div>
+
+<div class="modal-footer justify-content-center">
+
+<button class="btn btn-secondary" data-bs-dismiss="modal">
+
+Hủy
+
+</button>
+
+<button class="btn btn-danger">
+
+Xóa
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+const searchGroup=document.getElementById("searchGroup");
+
+searchGroup.addEventListener("keyup",function(){
+
+let keyword=this.value.toLowerCase();
+
+let rows=document.querySelectorAll("#groupTableBody tr");
+
+rows.forEach(function(row){
+
+let text=row.innerText.toLowerCase();
+
+row.style.display=text.includes(keyword) ? "" : "none";
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>

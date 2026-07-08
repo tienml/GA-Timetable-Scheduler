@@ -1,0 +1,278 @@
+/* =========================================================
+   GA TIMETABLE SCHEDULER - BẢN CẬP NHẬT UI HIỆN ĐẠI
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Bảng màu chủ đạo dựa trên thiết kế mẫu */
+    --primary-blue: #0d47a1; /* Xanh đậm cho Sidebar */
+    --primary-active: #2563eb; /* Xanh sáng cho item đang chọn */
+    --bg-light-gray: #f4f7fe; /* Nền xám nhạt giúp làm nổi bật Card trắng */
+    --card-bg: #ffffff;
+    
+    /* Màu chữ */
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    
+    /* Đường viền và đổ bóng */
+    --border-soft: #e2e8f0;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light-gray);
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+/* =========================================
+   1. BỐ CỤC CHUNG (LAYOUT)
+   ========================================= */
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    min-height: 100vh;
+}
+
+.content {
+    width: calc(100% - 260px);
+    margin-left: 260px; /* Nhường chỗ cho sidebar */
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Các trang nên bọc nội dung trong thẻ div có class này để có khoảng cách đẹp */
+.main-padding {
+    padding: 24px;
+}
+
+/* =========================================
+   2. SIDEBAR (THANH ĐIỀU HƯỚNG TRÁI)
+   ========================================= */
+#sidebar {
+    min-width: 260px;
+    max-width: 260px;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+}
+
+/* Tiêu đề Logo trong sidebar */
+#sidebar .sidebar-brand {
+    padding: 20px 24px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin: 4px 16px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#sidebar .nav-link:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#sidebar .nav-link.active {
+    color: #ffffff;
+    background-color: var(--primary-active);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+}
+
+/* =========================================
+   3. HEADER (THANH TOPBAR)
+   ========================================= */
+header.navbar {
+    background-color: #ffffff !important;
+    padding: 12px 24px !important;
+    border-bottom: 1px solid var(--border-soft);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02) !important;
+}
+
+header .navbar-brand {
+    font-size: 1.25rem;
+    color: var(--text-dark) !important;
+}
+
+/* =========================================
+   4. COMPONENT: CARD (THẺ NỘI DUNG)
+   ========================================= */
+.card {
+    border: none;
+    border-radius: 16px; /* Bo góc mềm mại hơn */
+    box-shadow: var(--card-shadow);
+    background-color: var(--card-bg);
+    margin-bottom: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* Thẻ thống kê nhỏ trên cùng (Giáo viên, Phòng học, v.v.) */
+.stat-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-right: 16px;
+}
+/* Màu nền cho các icon thống kê */
+.bg-icon-purple { background-color: #f3e8ff; color: #9333ea; }
+.bg-icon-green { background-color: #dcfce7; color: #16a34a; }
+.bg-icon-blue { background-color: #e0e7ff; color: #4f46e5; }
+.bg-icon-orange { background-color: #ffedd5; color: #ea580c; }
+
+.stat-info h5 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+.stat-info h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+/* =========================================
+   5. BẢNG DỮ LIỆU (TABLES)
+   ========================================= */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: #f8fafc; /* Nền xám rất nhạt cho tiêu đề bảng */
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-soft);
+    border-top: none;
+}
+
+.table tbody td {
+    padding: 16px;
+    vertical-align: middle;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* =========================================
+   6. BADGES (NHÃN TRẠNG THÁI) 
+   Dùng cho cột "Trạng thái" trong bảng
+   ========================================= */
+.badge-soft-success {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.badge-soft-warning {
+    background-color: #fef3c7;
+    color: #b45309;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.badge-soft-danger {
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+/* =========================================
+   7. BUTTONS (NÚT BẤM)
+   ========================================= */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-active);
+    border-color: var(--primary-active);
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    box-shadow: 0 4px 10px rgba(29, 78, 216, 0.3);
+}
+
+/* Nút Action trong bảng (Sửa, Xóa, Xem) */
+.btn-action {
+    background-color: #f1f5f9;
+    color: var(--text-muted);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+}
+
+.btn-action:hover {
+    background-color: #e2e8f0;
+    color: var(--primary-active);
+}
+.btn-action.text-danger:hover {
+    color: #dc3545 !important;
+}
